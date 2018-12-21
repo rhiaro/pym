@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteBase /resize
+
+RewriteRule ^([0-9]+)/([0-9]+)/(.*?)?$ imgproxy.php?w=$1&h=$2&img=$3 [B,QSA,L]
