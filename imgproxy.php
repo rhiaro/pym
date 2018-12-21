@@ -1,4 +1,17 @@
 <?
+function check_img_url($url){
+    $parts = explode("://", $url);
+    if(count($parts) > 1){
+        return $url;
+    }else{
+        // This is weird.
+        // Sometimes one of the / in :// gets dropped
+        // Probably goofing my regex in htaccess.
+        $parts = explode(":/", $url);
+        return implode("://", $parts);
+    }
+}
+
 function resize_image($file, $w, $h, $crop=FALSE) {
     list($width, $height) = getimagesize($file);
     $r = $width / $height;
@@ -31,6 +44,7 @@ if(!isset($_GET['img']) || !isset($_GET['h']) || !isset($_GET['w']) || !is_numer
     echo 'HTTP/1.0 404 Not Found';
 }else{
     header('Content-Type: image/jpeg');
-    resize_image($_GET['img'], $_GET['w'], $_GET['h']);
+    $img = check_img_url($_GET['img']);
+    resize_image($img, $_GET['w'], $_GET['h']);
 }
 ?>
