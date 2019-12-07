@@ -24,7 +24,7 @@ function resize_image($file, $w, $h, $crop=FALSE) {
         $newwidth = $w;
         $newheight = $h;
     } else {
-        if ($w/$h > $r) {
+        if ($h > 0 && $w/$h > $r) {
             $newwidth = $h*$r;
             $newheight = $h;
         } else {
