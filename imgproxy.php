@@ -12,7 +12,19 @@ function check_img_url($url){
     }
 }
 
+function check_mime($url){
+    $imgsize = getimagesize($url);
+    $mime = $imgsize["mime"];
+    // var_dump($mime);
+    if($mime=='image/jpeg'||$mime=='image/pjpeg'){
+        return $url;
+    }else{
+        return "https://http.cat/418";
+    }
+}
+
 function resize_image($file, $w, $h, $crop=FALSE) {
+    $file = check_mime($file);
     list($width, $height) = getimagesize($file);
     $r = $width / $height;
     if ($crop) {
@@ -32,6 +44,7 @@ function resize_image($file, $w, $h, $crop=FALSE) {
             $newwidth = $w;
         }
     }
+
     $src = imagecreatefromjpeg($file);
     $dst = imagecreatetruecolor($newwidth, $newheight);
     imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
